@@ -59,7 +59,16 @@ class ShellGUI:
         self.input_entry = tk.Entry(self.input_frame)
         self.input_entry.pack(side=tk.LEFT, fill=tk.X, expand=True)
 
+        self.input_entry.bind('<Return>', self.execute_command)
+
         self.root.mainloop()
+
+    def execute_command(self, event=None):
+        command = self.input_entry.get()
+        self.history.append(command)
+        self.history_index = len(self.history)
+        self.input_entry.delete(0, tk.END)
+        self.output_text.insert(tk.END, f'${command}\n')
 
 if __name__ == '__main__':
     config = Config('config.xml')

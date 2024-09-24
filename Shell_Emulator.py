@@ -116,6 +116,8 @@ class ShellGUI:
 
         self.output_text.insert(tk.END, f'Welcome to Shell Emulator\n')
 
+        self.run_start_script()
+
         self.root.mainloop()
 
     def execute_command(self, event=None):
@@ -150,6 +152,13 @@ class ShellGUI:
             self.output_text.insert(tk.END, 'Invalid command\n')
 
         self.input_entry.insert(0, f'${self.file_system.current_dir}>')
+
+    def run_start_script(self):
+        if self.config.start_script_path:
+            with open(self.config.start_script_path, 'r') as script_file:
+                for line in script_file:
+                    self.input_entry.insert(tk.END, line.strip())
+                    self.execute_command()
         
     def history_up(self, event=None):
         if self.history_index > 0:

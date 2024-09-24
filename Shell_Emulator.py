@@ -89,9 +89,15 @@ class ShellGUI:
         self.input_entry = tk.Entry(self.input_frame)
         self.input_entry.pack(side=tk.LEFT, fill=tk.X, expand=True)
 
-        self.input_entry.insert(tk.END, f'${self.file_system.current_dir}>')
+        self.input_entry.insert(0, f'${self.file_system.current_dir}>')
 
         self.input_entry.bind('<Return>', self.execute_command)
+
+        self.root.bind('<Up>', self.history_up)
+        self.root.bind('<Down>', self.history_down)
+
+        self.history = []
+        self.history_index = -1
 
         self.output_text.insert(tk.END, f'Welcome to Shell Emulator\n')
 
@@ -126,7 +132,22 @@ class ShellGUI:
         else:
             self.output_text.insert(tk.END, 'Invalid command\n')
 
-        self.input_entry.insert(tk.END, f'${self.file_system.current_dir}>')
+        self.input_entry.insert(0, f'${self.file_system.current_dir}>')
+        
+    def history_up(self, event=None):
+        if self.history_index > 0:
+            self.history_index -= 1
+            self.input_entry.delete(0, tk.END)
+            self.input_entry.insert(0, f'${self.file_system.current_dir}>{self.history[self.history_index]}')
+
+    def history_down(self, event=None):
+        if self.history_index == len(self.history) - 1:
+            self.history_index += 1
+            self.input_entry.delete(0, tk.END)
+        elif self.history_index < len(self.history) - 1:
+            self.history_index += 1
+            self.input_entry.delete(0, tk.END)
+            self.input_entry.insert(0, f'${self.file_system.current_dir}>{self.history[self.history_index]}')
 
 if __name__ == '__main__':
     config = Config('config.xml')

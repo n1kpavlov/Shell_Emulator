@@ -84,19 +84,24 @@ class ShellGUI:
         self.input_entry = tk.Entry(self.input_frame)
         self.input_entry.pack(side=tk.LEFT, fill=tk.X, expand=True)
 
+        self.input_entry.insert(tk.END, f'${self.file_system.current_dir}>')
+
         self.input_entry.bind('<Return>', self.execute_command)
+
+        self.output_text.insert(tk.END, f'Welcome to Shell Emulator\n')
 
         self.root.mainloop()
 
     def execute_command(self, event=None):
-        command = self.input_entry.get()
+        command = self.input_entry.get().split('>')[1]
         self.history.append(command)
         self.history_index = len(self.history)
         self.input_entry.delete(0, tk.END)
-        self.output_text.insert(tk.END, f'${command}\n')
+        self.output_text.insert(tk.END, f'${self.file_system.current_dir} {command}\n')
 
         if command.strip() == 'exit':
             self.root.destroy()
+            exit(0)
         elif command.strip() == 'ls':
             files = self.file_system.ls()
             for file in files:
@@ -110,6 +115,8 @@ class ShellGUI:
             self.output_text.insert(tk.END, f'{self.file_system.pwd()}\n')
         else:
             self.output_text.insert(tk.END, 'Invalid command\n')
+
+        self.input_entry.insert(tk.END, f'${self.file_system.current_dir}>')
 
 if __name__ == '__main__':
     config = Config('config.xml')

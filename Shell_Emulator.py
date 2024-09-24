@@ -3,6 +3,7 @@ import xml.etree.ElementTree as ET
 import tkinter as tk
 import os
 
+
 class Config:
     def __init__(self, config_file):
         self.config_file = config_file
@@ -70,6 +71,20 @@ class FileSystem:
     def pwd(self):
         return self.current_dir
 
+    def tree(self, path=None, level=0):
+        if path is None:
+            path = self.current_dir
+        result = ''
+        for key in self.file_system:
+            if key.startswith(path) and key.count('/') == path.count('/') + 1:
+                prefix = ' ' * level
+                if self.file_system[key]['type'] == 'dir':
+                    result += f'{prefix}{key.split("/")[-1]}/\n'
+                    result += self.tree(key, level + 1)
+                else:
+                    result += f'{prefix}{key.split("/")[-1]}\n'
+        return result
+
 class ShellGUI:
     def __init__(self, config):
         self.config = config
@@ -129,6 +144,8 @@ class ShellGUI:
             self.output_text.insert(tk.END, f'{self.file_system.uname()}\n')
         elif command.strip() == 'pwd':
             self.output_text.insert(tk.END, f'{self.file_system.pwd()}\n')
+        elif command.strip() == 'tree':
+            self.output_text.insert(tk.END, f'{self.file_system.tree()}\n')
         else:
             self.output_text.insert(tk.END, 'Invalid command\n')
 

@@ -54,10 +54,15 @@ class FileSystem:
             self.current_dir = os.path.dirname(self.current_dir)
             if self.current_dir == '':
                 self.current_dir = self.root
+            return ""
         elif path == '/':
             self.current_dir = self.root
+            return ""
         elif path in self.ls(self.current_dir):
             self.current_dir += f'/{path}'
+            return ""
+        else:
+            return f'No such files or directories\n'
             
     def uname(self):
         return 'Linux'
@@ -97,7 +102,7 @@ class ShellGUI:
         self.history.append(command)
         self.history_index = len(self.history)
         self.input_entry.delete(0, tk.END)
-        self.output_text.insert(tk.END, f'${self.file_system.current_dir} {command}\n')
+        self.output_text.insert(tk.END, f'${self.file_system.current_dir}>{command}\n')
 
         if command.strip() == 'exit':
             self.root.destroy()
@@ -108,7 +113,7 @@ class ShellGUI:
                 self.output_text.insert(tk.END, f'{file}\n')
         elif command.startswith('cd'):
             path = command.split(' ')[1]
-            self.file_system.cd(path)
+            self.output_text.insert(tk.END, f'{self.file_system.cd(path)}')
         elif command.strip() == 'uname':
             self.output_text.insert(tk.END, f'{self.file_system.uname()}\n')
         elif command.strip() == 'pwd':

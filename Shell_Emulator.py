@@ -114,6 +114,8 @@ class ShellGUI:
         elif command.startswith('cd'):
             if command.strip() == 'cd':
                 self.output_text.insert(tk.END, f'No such files or directories\n')
+            elif command[2] != ' ':
+                self.output_text.insert(tk.END, 'Invalid command\n')
             else :
                 path = command.split(' ')[1]
                 self.output_text.insert(tk.END, f'{self.file_system.cd(path)}')

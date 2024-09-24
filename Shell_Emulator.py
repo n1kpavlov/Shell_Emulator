@@ -16,7 +16,29 @@ class Config:
         self.tar_path = root.find('tar_path').text
         self.start_script_path = root.find('start_script_path').text
 
-#class FileSystem:
+class FileSystem:
+    def __init__(self, tar_path):
+        self.tar_path = tar_path
+        self.root = '/'
+        self.current_dir = self.root
+        self.file_system = {}
+        self.load_tar()
+
+    def load_tar(self):
+        with tarfile.open(self.tar_path, 'r') as tar:
+            for member in tar.getmembers():
+                if member.isfile():
+                    self.file_system[member.name] = {
+                        'type': 'file',
+                        'size': member.size,
+                        'content': tar.extractfile(member).read().decode('utf-8')
+                    }
+                else:
+                    self.file_system[member.name] = {
+                        'type': 'dir',
+                        'size': None,
+                        'content': None
+                    }
 
 #class ShellGUI:
 

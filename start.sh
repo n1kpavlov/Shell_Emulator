@@ -1,3 +1,2 @@
-ls
-cd /home
+cd usr
 ls

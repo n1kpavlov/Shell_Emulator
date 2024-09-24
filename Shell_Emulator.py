@@ -40,8 +40,27 @@ class FileSystem:
                         'content': None
                     }
 
-#class ShellGUI:
+class ShellGUI:
+    def __init__(self, config):
+        self.config = config
+        self.file_system = FileSystem(self.config.tar_path)
+        self.root = tk.Tk()
+        self.root.title('Shell Emulator')
+
+        self.output_frame = tk.Frame(self.root)
+        self.output_frame.pack(fill=tk.BOTH, expand=True)
+
+        self.output_text = tk.Text(self.output_frame, wrap=tk.WORD)
+        self.output_text.pack(fill=tk.BOTH, expand=True)
+
+        self.input_frame = tk.Frame(self.root)
+        self.input_frame.pack(fill=tk.X)
+
+        self.input_entry = tk.Entry(self.input_frame)
+        self.input_entry.pack(side=tk.LEFT, fill=tk.X, expand=True)
+
+        self.root.mainloop()
 
 if __name__ == '__main__':
     config = Config('config.xml')
-    #shell_gui = ShellGUI(config)
+    shell_gui = ShellGUI(config)

@@ -47,6 +47,15 @@ class FileSystem:
             if key.startswith(path) and key.count('/') == path.count('/') + 1:
                 result.append(key.split('/')[-1])
         return result
+    def cd(self, path):
+        if path == '..':
+            self.current_dir = os.path.dirname(self.current_dir)
+            if self.current_dir == '':
+                self.current_dir = self.root
+        elif path == '/':
+            self.current_dir = self.root
+        elif path in self.ls(self.current_dir):
+            self.current_dir += f'/{path}'
 
 class ShellGUI:
     def __init__(self, config):
@@ -84,6 +93,9 @@ class ShellGUI:
             files = self.file_system.ls()
             for file in files:
                 self.output_text.insert(tk.END, f'{file}\n')
+        elif command.startswith('cd'):
+            path = command.split(' ')[1]
+            self.file_system.cd(path)
 
 if __name__ == '__main__':
     config = Config('config.xml')

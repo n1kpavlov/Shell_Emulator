@@ -1,0 +1,4 @@
+<config>
+    <tar_path>virtual_fs.tar</tar_path>
+    <start_script_path>start.sh</start_script_path>
+</config>

@@ -39,6 +39,7 @@ class FileSystem:
                         'size': None,
                         'content': None
                     }
+                    
     def ls(self, path=None):
         if path is None:
             path = self.current_dir
@@ -47,6 +48,7 @@ class FileSystem:
             if key.startswith(path) and key.count('/') == path.count('/') + 1:
                 result.append(key.split('/')[-1])
         return result
+        
     def cd(self, path):
         if path == '..':
             self.current_dir = os.path.dirname(self.current_dir)
@@ -56,6 +58,12 @@ class FileSystem:
             self.current_dir = self.root
         elif path in self.ls(self.current_dir):
             self.current_dir += f'/{path}'
+            
+    def uname(self):
+        return 'Linux'
+
+    def pwd(self):
+        return self.current_dir
 
 class ShellGUI:
     def __init__(self, config):
@@ -96,6 +104,12 @@ class ShellGUI:
         elif command.startswith('cd'):
             path = command.split(' ')[1]
             self.file_system.cd(path)
+        elif command.strip() == 'uname':
+            self.output_text.insert(tk.END, f'{self.file_system.uname()}\n')
+        elif command.strip() == 'pwd':
+            self.output_text.insert(tk.END, f'{self.file_system.pwd()}\n')
+        else:
+            self.output_text.insert(tk.END, 'Invalid command\n')
 
 if __name__ == '__main__':
     config = Config('config.xml')

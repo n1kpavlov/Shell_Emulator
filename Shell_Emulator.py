@@ -39,6 +39,14 @@ class FileSystem:
                         'size': None,
                         'content': None
                     }
+    def ls(self, path=None):
+        if path is None:
+            path = self.current_dir
+        result = []
+        for key in self.file_system:
+            if key.startswith(path) and key.count('/') == path.count('/') + 1:
+                result.append(key.split('/')[-1])
+        return result
 
 class ShellGUI:
     def __init__(self, config):
@@ -72,6 +80,10 @@ class ShellGUI:
 
         if command.strip() == 'exit':
             self.root.destroy()
+        elif command.strip() == 'ls':
+            files = self.file_system.ls()
+            for file in files:
+                self.output_text.insert(tk.END, f'{file}\n')
 
 if __name__ == '__main__':
     config = Config('config.xml')

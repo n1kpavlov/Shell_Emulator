@@ -19,7 +19,7 @@ class Config:
 class FileSystem:
     def __init__(self, tar_path):
         self.tar_path = tar_path
-        self.root = '/'
+        self.root = 'virtual_fs'
         self.current_dir = self.root
         self.file_system = {}
         self.load_tar()
@@ -69,6 +69,9 @@ class ShellGUI:
         self.history_index = len(self.history)
         self.input_entry.delete(0, tk.END)
         self.output_text.insert(tk.END, f'${command}\n')
+
+        if command.strip() == 'exit':
+            self.root.destroy()
 
 if __name__ == '__main__':
     config = Config('config.xml')

@@ -112,8 +112,11 @@ class ShellGUI:
             for file in files:
                 self.output_text.insert(tk.END, f'{file}\n')
         elif command.startswith('cd'):
-            path = command.split(' ')[1]
-            self.output_text.insert(tk.END, f'{self.file_system.cd(path)}')
+            if command.strip() == 'cd':
+                self.output_text.insert(tk.END, f'No such files or directories\n')
+            else :
+                path = command.split(' ')[1]
+                self.output_text.insert(tk.END, f'{self.file_system.cd(path)}')
         elif command.strip() == 'uname':
             self.output_text.insert(tk.END, f'{self.file_system.uname()}\n')
         elif command.strip() == 'pwd':

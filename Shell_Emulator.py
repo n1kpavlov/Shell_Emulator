@@ -77,7 +77,7 @@ class FileSystem:
         result = ''
         for key in self.file_system:
             if key.startswith(path) and key.count('/') == path.count('/') + 1:
-                prefix = ' ' * level
+                prefix = '  ' * level
                 if self.file_system[key]['type'] == 'dir':
                     result += f'{prefix}{key.split("/")[-1]}/\n'
                     result += self.tree(key, level + 1)

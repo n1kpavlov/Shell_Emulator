@@ -60,6 +60,10 @@ class FileSystem:
             self.current_dir = self.root
             return ""
         elif path in self.ls(self.current_dir):
+            full_path = self.current_dir + f'/{path}';
+            for key in self.file_system:
+                if key == full_path and self.file_system[key]['type'] == 'file':
+                    return f'It is not a directory\n'
             self.current_dir += f'/{path}'
             return ""
         else:
@@ -170,6 +174,7 @@ class ShellGUI:
         if self.history_index == len(self.history) - 1:
             self.history_index += 1
             self.input_entry.delete(0, tk.END)
+            self.input_entry.insert(0, f'${self.file_system.current_dir}>')
         elif self.history_index < len(self.history) - 1:
             self.history_index += 1
             self.input_entry.delete(0, tk.END)

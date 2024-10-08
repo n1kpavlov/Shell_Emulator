@@ -18,7 +18,7 @@ source venv/bin/activate
 ### Функции
 - Эмуляция команд: ls, cd, exit, uname, pwd, tree;
 - Исполнение стартового скрипта при запуске эмулятора.
-### Старт проекта
+## Старт проекта
 Запустить Console.py
 ```
 python Console.py

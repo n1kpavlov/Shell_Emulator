@@ -3,8 +3,8 @@
 ## Общие этапы сборки проектов репозитория
 1. Загрузить репозиторий на компьютер
 ```
-git clone https://github.com/n1kpavlov/MIREA_Shell_Emulator
-cd MIREA_Shell_Emulator
+git clone https://github.com/n1kpavlov/Shell_Emulator
+cd Shell_Emulator
 ```
 2. Создать в корне репозитория виртуальную среду python и активировать её.
 ```
